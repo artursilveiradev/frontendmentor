@@ -1,0 +1,35 @@
+name: Code Coverage
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Set up Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install dependencies - product-preview-card-component
+      working-directory: product-preview-card-component
+      run: npm ci
+    - name: Build - product-preview-card-component
+      working-directory: product-preview-card-component
+      run: npm run build
+    - name: Run the tests - product-preview-card-component
+      working-directory: product-preview-card-component
+      run: npm run coverage
+    - name: Upload coverage to Codecov - product-preview-card-component
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./product-preview-card-component/coverage/coverage-final.json
+        flags: product-preview-card-component
