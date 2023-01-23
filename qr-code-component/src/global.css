@@ -1,0 +1,20 @@
+:root {
+	--blue: #2C7DFA;
+	--blue-shade: #3685FF;
+	--dark-navy: #1F314F;
+	--grey: #7D889E;
+	--light-grey: #D5E1EF;
+	--white: #FFFFFF;
+}
+
+body, #root {
+	background-color: var(--light-grey);
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	font-family: 'Outfit', sans-serif;
+	font-size: 15px;
+	font-weight: 400;
+	min-height: 100vh;
+	width: 100%;
+}

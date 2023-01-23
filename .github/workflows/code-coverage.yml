@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [18.x]
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -19,6 +19,7 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
+
     - name: Install dependencies - product-preview-card-component
       working-directory: product-preview-card-component
       run: npm ci
@@ -33,3 +34,18 @@ jobs:
       with:
         files: ./product-preview-card-component/coverage/coverage-final.json
         flags: product-preview-card-component
+
+    - name: Install dependencies - qr-code-component
+      working-directory: qr-code-component
+      run: npm ci
+    - name: Build - qr-code-component
+      working-directory: qr-code-component
+      run: npm run build
+    - name: Run the tests - qr-code-component
+      working-directory: qr-code-component
+      run: npm run coverage
+    - name: Upload coverage to Codecov - qr-code-component
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./qr-code-component/coverage/coverage-final.json
+        flags: qr-code-component
